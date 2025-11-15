@@ -1,0 +1,6 @@
+CompileFlags:
+  CompilationDatabase: build/Debug
+Diagnostics:
+  Suppress:
+    - unused-includes
+    - unknown_typename
