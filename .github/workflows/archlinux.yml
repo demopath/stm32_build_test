@@ -1,4 +1,4 @@
-name: STM32 Build
+name: Arm GCC ArchLinux
 
 on:
   push:
