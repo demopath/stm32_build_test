@@ -1,45 +1,31 @@
-name: STM32 Build (Arch Linux)
+name: STM32 Build
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [main, master]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [main, master]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # 使用 Arch Linux 容器
-    container:
-      image: archlinux:latest
-
+    container: archlinux:latest
     steps:
-      - name: Update system and install dependencies
+      - name: Init
         run: |
-          # 更新包数据库并安装编译工具
-          pacman -Syu --noconfirm
-          pacman -S --noconfirm \
-            git \
-            cmake \
-            ninja \
-            arm-none-eabi-gcc \
-            arm-none-eabi-newlib \
-            make
+          pacman -Syu --noconfirm git cmake make ninja arm-none-eabi-gcc
+      - uses: actions/checkout@v4
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Build
+        run: |
+          cmake --preset Debug
+          cmake --build --preset Debug
 
-      - name: CMake Configure
-        run: cmake --preset Debug
-
-      - name: Build Project
-        run: cmake --build --build-config Debug -j $(nproc)
-
-      - name: Upload Artifacts
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: stm32-debug-binary
+          name: stm32-bin
           path: |
             build/Debug/*.elf
-            build/Debug/*.bin
-            build/Debug/*.hex
+            build/Debug/*.map
