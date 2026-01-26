@@ -8,19 +8,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: archlinux:latest
     steps:
-      - name: Init
-        run: |
-          pacman -Syu --noconfirm \
-            git \
-            make \
-            cmake \
-            ninja \
-            arm-none-eabi-gcc \
-            arm-none-eabi-newlib
-
       - uses: actions/checkout@v4
+
+      - name: Install Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-none-eabi cmake ninja-build
 
       - name: Build
         run: |
@@ -32,10 +26,6 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: stm32-${{ github.run_id }}
-          path: |
-            build/Debug/*.elf
-            build/Debug/*.map
-            build/Release/*.elf
-            build/Release/*.map
+          name: stm32-artifacts
+          path: build/**/*.elf
           retention-days: 7
