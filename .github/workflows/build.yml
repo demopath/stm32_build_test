@@ -34,7 +34,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: stm32-bin
+          name: stm32-${{ github.run_id }}
           path: |
             build/Debug/*.elf
             build/Debug/*.map
