@@ -14,7 +14,14 @@ jobs:
     steps:
       - name: Init
         run: |
-          pacman -Syu --noconfirm git cmake make ninja arm-none-eabi-gcc
+          pacman -Syu --noconfirm \
+            git \
+            make \
+            cmake \
+            ninja \
+            arm-none-eabi-gcc \
+            arm-none-eabi-newlib
+
       - uses: actions/checkout@v4
 
       - name: Build
