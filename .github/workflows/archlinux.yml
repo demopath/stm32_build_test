@@ -32,10 +32,11 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: stm32-${{ github.run_id }}
+          name: arm-${{ github.run_id }}
           path: |
             build/Debug/*.elf
             build/Debug/*.map
             build/Release/*.elf
             build/Release/*.map
           retention-days: 7
+
