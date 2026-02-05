@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Toolchain
+      - name: Init
         run: |
           sudo apt update
           sudo apt install -y gcc-arm-none-eabi cmake ninja-build
@@ -26,7 +26,10 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: stm32-artifacts
-          path: build/**/*.elf
+          name: arm-${{ github.run_id }}
+          path: |
+            build/**/*.elf
+            build/**/*.map
           retention-days: 7
+
 
